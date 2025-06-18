@@ -1,4 +1,4 @@
-import random
+from __future__ import annotations
 
 class Personagem:  
     def __init__(self, nome):
@@ -11,81 +11,48 @@ class Personagem:
         self.cartas = []
         self.energia = 100
         self.energia_maxima = 100
-
-class Carta:
-    def __init__(self, nome, energia_gasta, descricao):
-        # Atributos
-        self.nome = nome
-        self.energia_gasta = energia_gasta
-        self.descricao = descricao
-
-    # Métodos
-    def usar_carta(self):
+        
+    def atacar(self, inimigo: Personagem, heroi: Personagem):
+        dano = heroi.ataque
+        dano = max(0,dano) # Pro dano não ser negativo
+        inimigo.vida_atual -= dano
+        print(f"{heroi.nome} atacou {inimigo.nome} causando {dano} de dano!")
+ 
+    def usar_carta(personagem: Personagem, inimigo: Personagem, indice: int):
+        # Verifica se o número digitado pelo jogador é válido
+        if indice < 1 or indice > len(personagem.cartas):
+           print(f"Carta Inválida.")
+           return
+       
+        carta = personagem.cartas[indice - 1]
+        
+        # Reduz a energia a cada carta usada
+        if personagem.energia < carta.energia_gasta:
+            print(f"{personagem.nome} não tem energia suficiente para usar {carta.nome}.")
+            return
+        
+        personagem.energia -= carta.energia_gasta
+        print(f"{personagem.nome} usou a carta {carta.nome}")
+        
+        # Remove a carta após o uso
+        personagem.cartas.pop(indice -1)
+        print(f"A carta {carta.nome} foi descartada do deck. \n")
+        
+    def comprar_carta(self, inimigo: Personagem, heroi: Personagem):
         pass
     
-class CartaAumento(Carta):
-    # O "init" é o construtor
-    def __init__(self, nome, energia_gasta, descricao, tipo, pontos_aumentados):
-        super().__init__(nome, energia_gasta, descricao)
-        # Atributos
-        self.tipo = tipo
-        self.pontos_aumentados = pontos_aumentados
+    def levar_dano(self):
+        pass
     
-    def usar_carta(self, personagem):
-        if self.tipo == 1: 
-            personagem.vida_maxima = self.pontos_aumentados + personagem.vida_maxima
-            print(f"{self.nome} Usou a carta de Aumento de Vida Máxima.")
-            return
-        
-        if self.tipo == 2:
-            personagem.defesa = self.pontos_aumentados + personagem.defesa
-            print(f"{self.nome} Usou a carta de Aumento de Defesa.")
-            return
-        
-        if self.tipo == 3:
-            personagem.ataque = self.pontos_aumentados + personagem.ataque
-            print(f"{self.nome} Usou a carta de Aumento de Ataque.")
-            return
-        
-        if self.tipo == 4:
-            personagem.energia_maxima = self.pontos_aumentados + personagem.energia_maxima
-            print(f"{self.nome} Usou a carta de Aumento de Energia Máxima.")
-            return
-        
-class CartaRoubo(Carta):
-    def __init__(self, nome, energia_gasta, descricao):
-        super().__init__(nome, energia_gasta, descricao)
-        
-    def usar_carta(self, vitima: Personagem, ladrao: Personagem):
-        sorteio_carta_roubada = random.randint(0, len(vitima.cartas)-1) 
-        carta_roubada = vitima.cartas.pop(sorteio_carta_roubada) # Rouba a carta da Vítima
-        ladrao.cartas.append(carta_roubada) # Carta da Vítima vem para mim
-        return  
-        
+    def ver_cartas(self, personagem: Personagem):
+        print(f"Cartas de {personagem.nome}:")
+        if not personagem.cartas:
+            print("Nenhuma carta no momento.")
+        else:
+            for i, carta in enumerate(personagem.cartas, 1):
+                print(f"{i}. {carta.nome} - Custa {carta.energia_gasta} de energia\n {carta.descricao}")   
+                    
+    def curar_se(self):
+        pass
+                
     
-class CartaAtordoamento(Carta):
-    def __init__(self, nome, energia_gasta, descricao):
-        super().__init__(nome, energia_gasta, descricao)
-        
-    def usar_carta(self, vitima: Personagem):
-        vitima.energia = 0
-        return
-        
-    
-class CartaDano(Carta):
-    def __init__(self, nome, energia_gasta, descricao, pontos_de_dano):
-        super().__init__(nome, energia_gasta, descricao)
-        self.pontos_de_dano = pontos_de_dano
-
-    def usar_carta(self, inimigo: Personagem, causador: Personagem):
-        inimigo.vida_atual -= causador.ataque - inimigo.defesa
-        
-        
-class CartaCura(Carta):
-    def __init__(self, nome, energia_gasta, descricao, pontos_de_vida_curado):
-        super().__init__(nome, energia_gasta, descricao)
-        self.pontos_de_vida_curado = pontos_de_vida_curado
-        
-    def usar_carta(self, beneficiario: Personagem):
-        beneficiario.vida_atual += beneficiario.vida_maxima * 0.30  # Cura 30% da vida máxima
-           
