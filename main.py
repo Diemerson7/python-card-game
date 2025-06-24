@@ -1,6 +1,9 @@
-from cartas import Personagem, CartaAumento, CartaRoubo, CartaAtordoamento, CartaDano, CartaCura
+from cartas import Personagem, CartaAumento, CartaRoubo, CartaAtordoamento, CartaDano, CartaCura, Carta
+import random
 
 heroi = Personagem("Herói")
+inimigo = Personagem("Inimigo")
+
 carta1 = CartaAumento("Ataque", 2, "Carta que aumenta o Ataque", 3, 5) # O número "3" é o número do tipo da carta. Por exemplo, o número do ataque é 3, porque é o "self.tipo == 3", e o número "5" é a quantidade que vai aumentar do ataque.
 # print(f"Ataque do Herói: {heroi.ataque}.")
 # carta1.usar_carta(personagem = heroi)
@@ -28,3 +31,10 @@ carta6 = CartaAtordoamento("Carta de Atordoamento", 10, "Carta que zera a energi
 carta7 = CartaDano("Carta de Dano", 2, "Carta que dá dano no adversário", 10)
 
 carta8 = CartaCura("Carta de Cura", 2, "Carta que cura a vida", 10)
+
+cartas = [carta1, carta2, carta3, carta4, carta5, carta6, carta7, carta8]
+cartas_aleatorias1 = random.sample(cartas, 3)
+cartas_aleatorias2 = random.sample(cartas, 3)
+
+heroi.cartas.extend(cartas_aleatorias1)
+inimigo.cartas.extend(cartas_aleatorias2)
