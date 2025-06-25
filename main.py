@@ -1,4 +1,6 @@
-from cartas import Personagem, CartaAumento, CartaRoubo, CartaAtordoamento, CartaDano, CartaCura, Carta
+from personagem import Personagem
+from cartas import Carta,  CartaAumento, CartaRoubo, CartaAtordoamento, CartaDano, CartaCura, Carta
+from partida import Partida
 import random
 
 heroi = Personagem("Herói")
@@ -24,7 +26,7 @@ carta4 = CartaAumento("Energia Máxima", 3, "Carta que aumenta a Energia Máxima
 # carta4.usar_carta(personagem = heroi)
 # print(f"Energia Máxima: {heroi.energia}")
 
-carta5 = CartaRoubo("Carta Roubo", 3, "Carta que rouba uma carta aleatória do adversário")
+carta5 = CartaRoubo("Carta de Roubo", 3, "Carta que rouba uma carta aleatória do adversário")
 
 carta6 = CartaAtordoamento("Carta de Atordoamento", 10, "Carta que zera a energia do adversário")
 
@@ -38,3 +40,6 @@ cartas_aleatorias2 = random.sample(cartas, 3)
 
 heroi.cartas.extend(cartas_aleatorias1)
 inimigo.cartas.extend(cartas_aleatorias2)
+
+partida = Partida(jogador1 = heroi, jogador2 = inimigo)
+partida.iniciar()

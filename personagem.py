@@ -13,8 +13,6 @@ class Personagem:
         self.energia = 100
         self.energia_maxima = 100
         
-    # Sortear cartas
-        
     # Método Atacar
     def atacar(self, inimigo: Personagem, heroi: Personagem):
         dano = heroi.ataque
@@ -58,12 +56,12 @@ class Personagem:
         
     
     # Método Ver Cartas
-    def ver_cartas(self, personagem: Personagem):
-        print(f"Cartas de {personagem.nome}:")
-        if not personagem.cartas:
+    def ver_cartas(self):
+        print(f"Cartas de {self.nome}:")
+        if not self.cartas:
             print("Nenhuma carta no momento.")
         else:
-            for i, carta in enumerate(personagem.cartas, 1):
+            for i, carta in enumerate(self.cartas, 1):
                 print(f"{i}. {carta.nome} - Custa {carta.energia_gasta} de energia\n {carta.descricao}")   
     
     # Método Curar-se                    

@@ -1,6 +1,4 @@
 import random
-from personagem import Personagem
-
 
 class Carta:
     def __init__(self, nome, energia_gasta, descricao):
@@ -43,7 +41,7 @@ class CartaRoubo(Carta):
     def __init__(self, nome, energia_gasta, descricao):
         super().__init__(nome, energia_gasta, descricao)
         
-    def usar_carta(self, vitima: Personagem, ladrao: Personagem):
+    def usar_carta(self, vitima, ladrao):
         sorteio_carta_roubada = random.randint(0, len(vitima.cartas)-1) 
         carta_roubada = vitima.cartas.pop(sorteio_carta_roubada) # Rouba a carta da Vítima
         ladrao.cartas.append(carta_roubada) # Carta da Vítima vem para mim
@@ -54,7 +52,7 @@ class CartaAtordoamento(Carta):
     def __init__(self, nome, energia_gasta, descricao):
         super().__init__(nome, energia_gasta, descricao)
         
-    def usar_carta(self, vitima: Personagem):
+    def usar_carta(self, vitima):
         vitima.energia = 0
         return
         
@@ -64,7 +62,7 @@ class CartaDano(Carta):
         super().__init__(nome, energia_gasta, descricao)
         self.pontos_de_dano = pontos_de_dano
 
-    def usar_carta(self, inimigo: Personagem, causador: Personagem):
+    def usar_carta(self, inimigo, causador):
         inimigo.vida_atual -= causador.ataque - inimigo.defesa
         
         
@@ -73,6 +71,6 @@ class CartaCura(Carta):
         super().__init__(nome, energia_gasta, descricao)
         self.pontos_de_vida_curado = pontos_de_vida_curado
         
-    def usar_carta(self, beneficiario: Personagem):
+    def usar_carta(self, beneficiario):
         beneficiario.vida_atual += beneficiario.vida_maxima * 0.30  # Cura 30% da vida máxima
            
