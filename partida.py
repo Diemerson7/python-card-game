@@ -10,8 +10,8 @@ class Partida:
         print(f"{self.jogador_atual.nome} começa! \n")
         
         while True: 
-            self.informacoes1
-            self.informacoes2
+            self.informacoes1()
+            self.informacoes2()
             
             print(f"É a vez do {self.jogador_atual.nome}. \n")
             print(f"1 - Usar uma carta")
@@ -25,15 +25,40 @@ class Partida:
             if escolha == 1: 
                 print(f"O jogador escolheu usar uma carta. \n")
                 self.jogador_atual.ver_cartas()
-                escolha_carta = 
-                
-            if escolha == 2:
-                print(f"O jogador escolheu passar a vez. \n")
-                
-            if escolha == 3:
-                print(f"O jogador escolheu atacar. \n")
+
+                if not self.jogador_atual.cartas:
+                    print("Você não tem cartas disponíveis. \n")
+                    continue
+
+                escolha_carta = int(input("Qual carta deseja usar? \n")) 
+
+                if 0 <- escolha_carta < len(self.jogador_atual.cartas):
+                    carta = self.jogador_atual.cartas[escolha_carta]
+                    alvo = self.jogador2 if self.jogador_atual == self.jogador1 else self.jogador1
+
+                    try:
+                        carta.usar_carta(personagem = self.jogador_atual, alvo = alvo)
+                        self.jogador_atual.cartas.pop(escolha_carta)
+                    except Exception as e:
+                        print(f"Erro ao usar carta: {e}")
+
+                else:
+                    print("Carta inválida. \n")
+
+                    
+            elif escolha == 2:
+                print("Você escolheu passar a vez.\n")
+
+            elif escolha == 3:
+                print("Você escolheu atacar.\n")
+                self.jogador_atual.atacar(self.jogador2 if self.jogador_atual == self.jogador1 else self.jogador1)
+
+            else:
+                print("Opção inválida.\n")
+                continue
+
+            self.trocar_turno()
             
-                        
                         
     def trocar_turno(self):
         self.turno += 1
@@ -44,21 +69,32 @@ class Partida:
             self.acabar()
             
     def informacoes1(self):
-        print(f" {self.jogador1} \n")
-        print(f" Vida: {self.jogador1.vida_atual}/{self.jogador1.vida_maxima} ")
-        print(f" Escudo: {self.jogador1.defesa} ")
-        print(f" Ataque: {self.jogador1.ataque} ")
-        print(f" Energia: {self.jogador1.energia}/{self.jogador1.energia_maxima} /n/n ")
-            
+        print("=" * 30)
+        print(f"🔷 {self.jogador1.nome}")
+        print(f"❤️ Vida:    {self.jogador1.vida_atual}/{self.jogador1.vida_maxima} {self.barra(self.jogador1.vida_atual, self.jogador1.vida_maxima)}")
+        print(f"🛡️ Defesa:  {self.jogador1.defesa}")
+        print(f"⚔️ Ataque:  {self.jogador1.ataque}")
+        print(f"⚡ Energia: {self.jogador1.energia}/{self.jogador1.energia_maxima} {self.barra(self.jogador1.energia, self.jogador1.energia_maxima)}")
+        print("=" * 30 + "\n")
+
     def informacoes2(self):
-        print(f" {self.jogador2} \n")
-        print(f" Vida: {self.jogador2.vida_atual}/{self.jogador2.vida_maxima} ")
-        print(f" Escudo: {self.jogador2.defesa} ")
-        print(f" Ataque: {self.jogador2.ataque} ")
-        print(f" Energia: {self.jogador2.energia}/{self.jogador2.energia_maxima} /n/n ")            
+        print("=" * 30)
+        print(f"🔶 {self.jogador2.nome}")
+        print(f"❤️ Vida:    {self.jogador2.vida_atual}/{self.jogador2.vida_maxima} {self.barra(self.jogador2.vida_atual, self.jogador2.vida_maxima)}")
+        print(f"🛡️ Defesa:  {self.jogador2.defesa}")
+        print(f"⚔️ Ataque:  {self.jogador2.ataque}")
+        print(f"⚡ Energia: {self.jogador2.energia}/{self.jogador2.energia_maxima} {self.barra(self.jogador2.energia, self.jogador2.energia_maxima)}")
+        print("=" * 30 + "\n")
             
+    def barra(self, atual, maxima, tamanho=20):
+        proporcao = atual / maxima if maxima > 0 else 0  # Evita divisão por zero
+        preenchido = int(tamanho * proporcao)
+        vazio = tamanho - preenchido
+        return f"[{'█' * preenchido}{'.' * vazio}]"
+
+
     def trocar_jogador(self):
-        if self.jogador == self.jogador1:
+        if self.jogador_atual == self.jogador1:
             self.jogador_atual = self.jogador2
         else:
             self.jogador_atual = self.jogador1

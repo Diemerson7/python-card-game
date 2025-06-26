@@ -18,9 +18,13 @@ class CartaAumento(Carta):
     # Métodos
     def usar_carta(self, personagem):
         if self.tipo == 1: 
-            personagem.vida_maxima = self.pontos_aumentados + personagem.vida_maxima
-            print(f"{self.nome} Usou a carta de Aumento de Vida Máxima.")
+            personagem.vida_maxima += self.pontos_aumentados
+            personagem.vida_atual += self.pontos_aumentados  # Cura junto com o aumento
+            if personagem.vida_atual > personagem.vida_maxima:
+                personagem.vida_atual = personagem.vida_maxima
+            print(f"{personagem.nome} usou {self.nome} e aumentou a Vida Máxima em {self.pontos_aumentados}.")
             return
+
         
         if self.tipo == 2:
             personagem.defesa = self.pontos_aumentados + personagem.defesa

@@ -12,13 +12,13 @@ class Personagem:
         self.cartas = []
         self.energia = 100
         self.energia_maxima = 100
-        
+
     # Método Atacar
-    def atacar(self, inimigo: Personagem, heroi: Personagem):
-        dano = heroi.ataque
+    def atacar(self, inimigo):
+        dano = inimigo.ataque
         dano = max(0,dano) # Pro dano não ser negativo
         inimigo.vida_atual -= dano
-        print(f"{heroi.nome} atacou {inimigo.nome} causando {dano} de dano!")
+        print(f"{inimigo.nome} atacou {inimigo.nome} causando {dano} de dano!")
  
     # Método Usar Carta 
     def usar_carta(personagem: Personagem, inimigo: Personagem, indice: int):
@@ -52,7 +52,7 @@ class Personagem:
         dano_real = max(0, dano - (personagem.defesa // 10)) # A defesa reduz o dano
         personagem.vida_atual -= dano_real
         personagem.vida_atual = max(0, personagem.vida_atual) # Pro dano não ser negativo
-        print(f"{personagem.nome} levou {dano.real} de dano! Vida atual: {personagem.vida_atual}")
+        print(f"{personagem.nome} levou {dano_real} de dano! Vida atual: {personagem.vida_atual}")
         
     
     # Método Ver Cartas
